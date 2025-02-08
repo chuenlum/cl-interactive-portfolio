@@ -7,6 +7,46 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Getting Started
+
+Make sure you have Node.js and npm installed. It is recommended to use nvm (Node Version Manager) to manage Node.js versions.
+
+1.  Install nvm:
+
+    ```bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    ```
+
+    Or, if you prefer using wget:
+
+    ```bash
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    ```
+2.  Restart your terminal or source nvm:
+
+    ```bash
+    source ~/.nvm/nvm.sh
+    ```
+3.  Navigate to the project directory:
+
+    ```bash
+    cd cl-interactive-portfolio
+    ```
+4.  Use the correct Node.js version specified in `.nvmrc`:
+
+    ```bash
+    nvm use
+    ```
+
+    This project requires Node.js version 22.11.0 or higher. nvm will automatically select the correct version if it is installed.
+
+    This project requires npm version 10.9.0 or higher, as specified in the `packageManager` field of `package.json`. Please ensure you are using a compatible version.
+5.  Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
