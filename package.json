@@ -7,12 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "screenshots": "node server/generate-screenshots.js --mode=json",
+    "screenshots:file": "node server/generate-screenshots.js --mode=file",
+    "screenshots:urls": "node server/generate-screenshots.js --mode=urls"
   },
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "framer-motion": "^10.12.16"
+    "framer-motion": "^10.12.16",
+    "puppeteer": "^21.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Raffles Place Buzzmark",
+    "url": "https://rafflesplace.sg/buzzmark/",
+    "categories": ["Corporate", "Interactive", "Designed by Partner"],
+    "technologies": ["WordPress", "GSAP"]
+  },
+  {
+    "name": "Earth 300",
+    "url": "https://earth300.com/",
+    "categories": ["Corporate", "Designed by Partner"],
+    "technologies": ["WordPress", "GSAP"]
+  },
+  {
+    "name": "SCCC Singaporen",
+    "url": "https://singaporen.singaporeccc.org.sg/chapter-1?lang=en",
+    "categories": ["Corporate", "Interactive", "Designed by Partner"],
+    "technologies": ["HTML CSS JS", "GSAP"]
+  },
+  {
+    "name": "Space Sage",
+    "url": "https://spacesage.co/",
+    "categories": ["Corporate", "Designed by Partner", "Interactive"],
+    "technologies": ["React", "Laravel", "GSAP"]
+  },
+  {
+    "name": "DFIN Solutions China",
+    "url": "https://www.dfinsolutions.com.cn/",
+    "categories": ["Corporate", "Designed by Partner"],
+    "technologies": ["WordPress"]
+  },
+  {
+    "name": "Sanelo",
+    "url": "https://sanelo.coconutlab.io/",
+    "categories": ["Corporate", "Interactive"],
+    "technologies": ["NextJS", "React"]
+  },
+  {
+    "name": "BASE Entertainment",
+    "url": "https://baseentertainment.com.sg/",
+    "categories": ["Corporate", "Interactive"],
+    "technologies": ["WordPress", "GSAP"]
+  }
+]

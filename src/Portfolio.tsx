@@ -1,24 +1,37 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { motion, AnimatePresence, easeInOut } from 'framer-motion'
+import screenshotsData from '../screenshots.json'
 
-// Updated dummyPortfolios with 47 additional items
-const baseImages = ['/images/project1.jpg', '/images/project2.jpg', '/images/project3.jpg'];
+// Define type for screenshots array items
+interface ScreenshotItem {
+  name: string;
+  url: string;
+  categories: string[];
+  technologies: string[];
+}
 
-const dummyPortfolios = Array.from({ length: 50 }, (_, i) => {
-  const id = i + 1;
-  const categories = ['Ecommerce', 'Corporate', 'Marketplace'];
-  const technologies = ['React', 'Laravel', 'WordPress'];
-  return {
-    id,
-    name: `Project ${id}`,
-    category: categories[id % 3],
-    technology: technologies[id % 3],
-    src: baseImages[id % 3],
-    link: `https://example.com/${id}`
-  }
-});
+// Helper function to convert a string to kebab-case
+function toKebabCase(str: string) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+}
 
-// Add helper to return a random off-screen position.
+// Cast screenshotsData to ScreenshotItem[]
+const screenshots = screenshotsData as ScreenshotItem[]
+
+// Derive unique categories and technologies from screenshots.json
+const uniqueCategories = Array.from(new Set(screenshots.flatMap(item => item.categories)))
+const uniqueTechnologies = Array.from(new Set(screenshots.flatMap(item => item.technologies)))
+
+// Map screenshots data to portfolio items with full arrays for filters
+const mappedPortfolios = screenshots.map((item, index) => ({
+  id: index + 1,
+  name: item.name,
+  categories: item.categories,
+  technologies: item.technologies,
+  src: `/images/${toKebabCase(item.name)}.png`,
+  link: item.url
+}))
+
 const getOffScreenPosition = () => {
   const { innerWidth, innerHeight } = window;
   const randomEdge = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
@@ -32,11 +45,10 @@ const getOffScreenPosition = () => {
 }
 
 const Portfolio = () => {
-  // UI steps: "intro" -> "loading" -> "gallery"
+  // Use new portfolios data instead of dummyPortfolios
   const [step, setStep] = useState<'intro' | 'loading' | 'gallery'>('intro')
   const [progress, setProgress] = useState(0)
-  const [imagesLoaded, setImagesLoaded] = useState(false)
-  const [portfolios, setPortfolios] = useState(dummyPortfolios)
+  const [portfolios, setPortfolios] = useState(mappedPortfolios)
   const [filters, setFilters] = useState({ category: '', technology: '', name: '' })
   const [positions, setPositions] = useState<{ [key: number]: { x: number; y: number; depth: number } }>({})
   const containerRef = useRef<HTMLDivElement>(null)
@@ -44,20 +56,19 @@ const Portfolio = () => {
   const isDragging = useRef(false)
   const dragStart = useRef({ x: 0, y: 0 })
   const [loadingComplete, setLoadingComplete] = useState(false)
-  const [firstAnimation, setFirstAnimation] = useState(true) // new state
+  const [firstAnimation, setFirstAnimation] = useState(true)
 
-  // preload images on mount for caching
+  // Preload images using portfolios state
   useEffect(() => {
-    dummyPortfolios.forEach(item => {
+    portfolios.forEach(item => {
       const img = new Image()
       img.src = item.src
       img.onload = () => {
-        setProgress(prev => Math.min(prev + (100 / dummyPortfolios.length), 100))
+        setProgress(prev => Math.min(prev + (100 / portfolios.length), 100))
       }
     })
-  }, [])
+  }, [portfolios])
 
-  // When progress reaches 100, simulate fade out progress bar then show gallery
   useEffect(() => {
     if (progress >= 100) {
       setTimeout(() => {
@@ -66,27 +77,25 @@ const Portfolio = () => {
     }
   }, [progress])
 
-  // Arrange images randomly using simulated repelling logic.
+  // Arrange images randomly using portfolios state
   const arrangeImages = () => {
     const newPositions: { [key: number]: { x: number; y: number; depth: number } } = {}
     const { innerWidth, innerHeight } = window
-    dummyPortfolios.forEach(item => {
+    portfolios.forEach(item => {
       newPositions[item.id] = {
         x: Math.random() * (innerWidth - 300),
         y: Math.random() * (innerHeight - 125),
-        depth: Math.random() * 1 // 0 to 1 depth modifier
+        depth: Math.random() * 1
       }
     })
     setPositions(newPositions)
   }
 
-  // Add resetPortfolio function
   const resetPortfolio = () => {
     setFilters({ category: '', technology: '', name: '' });
     arrangeImages();
   };
 
-  // Handle filter changes with debounce for text filter
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     if (name === 'name') {
@@ -229,9 +238,9 @@ const Portfolio = () => {
               style={{ background: '#fff', border: '1px solid #fff', color: '#000', height: '32px' }} // updated
             >
               <option value="">All Categories</option>
-              <option value="Ecommerce">Ecommerce</option>
-              <option value="Corporate">Corporate</option>
-              <option value="Marketplace">Marketplace</option>
+              {uniqueCategories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
             <select
               name="technology"
@@ -240,9 +249,9 @@ const Portfolio = () => {
               style={{ background: '#fff', border: '1px solid #fff', color: '#000', height: '32px' }} // updated
             >
               <option value="">All Tech</option>
-              <option value="React">React</option>
-              <option value="WordPress">WordPress</option>
-              <option value="Laravel">Laravel</option>
+              {uniqueTechnologies.map(tech => (
+                <option key={tech} value={tech}>{tech}</option>
+              ))}
             </select>
             <input
               type="text"
@@ -262,7 +271,7 @@ const Portfolio = () => {
 
           {/* Gallery Images container */}
           <div>
-            {dummyPortfolios.map(item => {
+            {portfolios.map(item => {
               const baseX = positions[item.id]?.x || 0
               const baseY = positions[item.id]?.y || 0
               // console.log(baseX, baseY)
@@ -270,8 +279,8 @@ const Portfolio = () => {
               const offScreen = getOffScreenPosition()
               // Determine if the item matches the current filters
               const match =
-                (!filters.category || item.category === filters.category) &&
-                (!filters.technology || item.technology === filters.technology) &&
+                (!filters.category || item.categories.includes(filters.category)) &&
+                (!filters.technology || item.technologies.includes(filters.technology)) &&
                 (!filters.name || item.name.toLowerCase().includes(filters.name.toLowerCase()));
               return (
                 <motion.a
@@ -299,7 +308,7 @@ const Portfolio = () => {
                   whileHover={{ scale: 1.1 }}
                   initial={{ opacity: 0, x: offScreen.x, y: offScreen.y }}
                   animate={{
-                    opacity: match ? 1 : 0.5,
+                    opacity: match ? 1 : 0.3,
                     x: baseX,  // Final X
                     y: baseY,  // Final Y
                     scale: computedScale,
@@ -312,7 +321,7 @@ const Portfolio = () => {
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    maxWidth: '200px'
+                    maxWidth: '250px'
                   }}
                 >
                   <img src={item.src} alt={item.name} style={{ width: '100%', height: 'auto', borderRadius: '8px', pointerEvents: 'none' }} />
