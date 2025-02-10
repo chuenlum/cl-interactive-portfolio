@@ -40,5 +40,11 @@
     "url": "https://baseentertainment.com.sg/",
     "categories": ["Corporate", "Interactive"],
     "technologies": ["WordPress", "GSAP"]
+  },
+  {
+    "name": "AORA",
+    "url": "https://aorabms.com/",
+    "categories": ["Corporate", "Interactive"],
+    "technologies": ["WordPress", "GSAP"]
   }
 ]
