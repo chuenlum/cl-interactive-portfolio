@@ -57,6 +57,7 @@ const Portfolio = () => {
   const dragStart = useRef({ x: 0, y: 0 })
   const [loadingComplete, setLoadingComplete] = useState(false)
   const [firstAnimation, setFirstAnimation] = useState(true)
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
 
   // Preload images using portfolios state
   useEffect(() => {
@@ -288,6 +289,8 @@ const Portfolio = () => {
                   href={item.link}
                   target="_blank"
                   drag
+                  onMouseEnter={() => setHoveredId(item.id)}
+                  onMouseLeave={() => setHoveredId(null)}
                   onDragStart={(e, info) => {
                     dragStart.current = info.point
                     isDragging.current = false
@@ -324,7 +327,26 @@ const Portfolio = () => {
                     maxWidth: '250px'
                   }}
                 >
-                  <img src={item.src} alt={item.name} style={{ width: '100%', height: 'auto', borderRadius: '8px', pointerEvents: 'none' }} />
+                  <div style={{ position: 'relative' }}>
+                    <img src={item.src} alt={item.name} style={{ width: '100%', height: 'auto', borderRadius: '8px', pointerEvents: 'none' }} />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        opacity: hoveredId === item.id ? 1 : 0,
+                        transition: 'opacity 0.3s ease'
+                      }}
+                    >
+                      <h3 style={{ color: '#fff', margin: 0 }}>{item.name}</h3>
+                    </div>
+                  </div>
                 </motion.a>
               )
             })}

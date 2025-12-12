@@ -2,7 +2,7 @@
   {
     "name": "Raffles Place Buzzmark",
     "url": "https://rafflesplace.sg/buzzmark/",
-    "categories": ["Corporate", "Interactive", "Designed by Partner"],
+    "categories": ["Corporate", "Interactive", "Designed by Partner", "Featured Presentation"],
     "technologies": ["WordPress", "GSAP"]
   },
   {
@@ -20,7 +20,7 @@
   {
     "name": "Space Sage",
     "url": "https://spacesage.co/",
-    "categories": ["Corporate", "Designed by Partner", "Interactive"],
+    "categories": ["Corporate", "Designed by Partner", "Interactive", "Featured Presentation"],
     "technologies": ["React", "Laravel", "GSAP"]
   },
   {
@@ -38,13 +38,13 @@
   {
     "name": "BASE Entertainment",
     "url": "https://baseentertainment.com.sg/",
-    "categories": ["Corporate", "Interactive"],
+    "categories": ["Corporate", "Interactive", "Designed by Partner"],
     "technologies": ["WordPress", "GSAP"]
   },
   {
     "name": "AORA",
     "url": "https://aorabms.com/",
-    "categories": ["Corporate", "Interactive"],
+    "categories": ["Corporate", "Interactive", "Designed by Partner", "Featured Presentation"],
     "technologies": ["WordPress", "GSAP"]
   }
 ]
